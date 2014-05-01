@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NGGameConstants.h"
 
 @interface NGGameData : NSObject {
     
@@ -14,6 +15,8 @@
 
 @property (nonatomic, readonly) int score;
 @property (nonatomic, readwrite, strong) NSString *userName;
+@property (nonatomic, readwrite, strong) NSString *userID;
+
 
 +(instancetype) sharedGameData;
 

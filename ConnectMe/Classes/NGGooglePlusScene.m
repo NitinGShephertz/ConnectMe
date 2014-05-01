@@ -66,7 +66,12 @@
     if ([GPPSignIn sharedInstance].authentication) {
         NSLog(@"Status: Authenticated");
         NSLog(@"userID = %@,userEmail = %@,googlePlusUser = %@",[GPPSignIn sharedInstance].userID,[GPPSignIn sharedInstance].userEmail,[GPPSignIn sharedInstance].googlePlusUser);
-        [[NGGameData sharedGameData] setUserName:[[GPPSignIn sharedInstance] userID]];
+        GTLPlusPerson *person = [GPPSignIn sharedInstance].googlePlusUser;
+        
+        [[NGGameData sharedGameData] setUserName:person.displayName];
+
+        [[NGGameData sharedGameData] setUserID:[[GPPSignIn sharedInstance] userID]];
+        
         [self loginDoneSubmitScore];
     } else {
         // To authenticate, use Google+ sign-in button.
@@ -87,7 +92,7 @@
 
 - (void) loginDoneSubmitScore {
     [self showLoadingIndicator];
-    NSString *anID = [[NGGameData sharedGameData] userName];
+    NSString *anID = [[NGGameData sharedGameData] userID];
     if ([anID length]) {
         [[App42Helper sharedApp42Helper] setUserID:anID];
         __block BOOL _success = false;

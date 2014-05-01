@@ -11,6 +11,7 @@
 #import "cocos2d-ui.h"
 #import "CCScene.h"
 #import <GooglePlus/GooglePlus.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
 
 @interface NGGooglePlusScene : CCScene <GPPSignInDelegate,UIAlertViewDelegate>
 

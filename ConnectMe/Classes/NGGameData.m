@@ -13,6 +13,7 @@ static NGGameData *dataInstance = nil;
 @implementation NGGameData
 @synthesize score = _score;
 @synthesize userName = _userName;
+@synthesize userID = _userID;
 
 +(instancetype) sharedGameData {
     if(dataInstance == nil){
@@ -36,7 +37,7 @@ static NGGameData *dataInstance = nil;
 }
 
 - (void) updateScoreByValue:(int)_aValue {
-    _score += abs(_aValue);
+    _score += abs(_aValue * Score_Multiplier);
     _score = _score < 0 ? 0 : _score;
     NSLog(@"my score = %d",_score);
 }

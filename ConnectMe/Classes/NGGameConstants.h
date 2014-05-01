@@ -20,7 +20,9 @@ static NSString * const kClientId = @"618732988321-quuc1o5tb70h4urqqmtgtts6dhg3k
 #define RESET_JUMP_TIME 0.3
 #define RESET_JUMP_TIMES 3
 
-#define GAME_TIME 2
+#define GAME_TIME 60
+
+#define Score_Multiplier 50
 
 typedef enum {
     kRed,

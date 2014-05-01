@@ -16,25 +16,27 @@
  */
 @interface NGGameScene : CCScene {
     
-    NSMutableArray * m_SpriteArray;
+    NSMutableArray * _aSpriteArray;
     
-    CCColor *m_currentDrawColor;
+    CCColor *_currentDrawColor;
     
-    NSMutableArray * m_stackArray;
+    NSMutableArray * _stackArray;
     
-    BOOL m_drawLine;
+    BOOL _drawLine;
     
-    BOOL m_objectHasContina;
+    BOOL _hasObject;
     
-    BOOL m_removeAllSameColor;
+    BOOL _removeAllSameColor;
     
-    BOOL m_toolsDisappear;
+    BOOL _toolsDisappear;
     
-    BOOL m_toolsDisappearType;
+    BOOL _toolsDisappearType;
         
-    CGPoint m_movePos;
+    CGPoint _movePos;
+        
+    float _timeElapsed;
     
-    int m_score;
+    int _totalTimeLeft;
 }
 
 + (instancetype)scene;
@@ -52,9 +54,5 @@
 -(void) disappearEnd;
 
 -(BOOL) allDrawNodeBeSelected:(BOOL) disappearType;
-
--(void) moveOut;
-
--(void) moveIn;
 
 @end

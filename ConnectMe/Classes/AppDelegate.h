@@ -7,6 +7,7 @@
 // 
 
 #import "cocos2d.h"
+#import <GooglePlus/GooglePlus.h>
 
 @interface AppDelegate : CCAppDelegate
 @end

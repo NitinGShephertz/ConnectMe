@@ -9,6 +9,8 @@
 #import "NGGameScene.h"
 #import "NGSprite.h"
 #import "NGGameConstants.h"
+#import "NGGameOverScene.h"
+#import "NGGameData.h"
 
 @implementation NGGameScene
 
@@ -29,21 +31,25 @@ static inline NSString* calcIndex(int x,int y){
     }
     // Enable touch handling on scene node
     self.userInteractionEnabled = NO;
+    
+    _timeElapsed = 0;
+    _totalTimeLeft = GAME_TIME;
+    
     [self draw];
     // Create a colored background (Dark Grey)
     CCNodeColor *background = [CCNodeColor nodeWithColor:[CCColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f]];
     [self addChild:background];
     
-    m_SpriteArray = [[NSMutableArray alloc]initWithCapacity:ROWS*COLOUMS];
-    m_stackArray = [[NSMutableArray alloc]init];
+    _aSpriteArray = [[NSMutableArray alloc]initWithCapacity:ROWS*COLOUMS];
+    _stackArray = [[NSMutableArray alloc]init];
 
     for (int y = 0; y<ROWS; y++) {
         for (int x = 0; x<COLOUMS; x++) {
             
             NGSprite * dotNode = [NGSprite node];
             
-            [dotNode spawnAtX:x Y:y Width:DOT_WIDTH Height:DOT_HEIGHT];
-            [m_SpriteArray addObject:dotNode];
+            [dotNode spawnAtX:x Y:y];
+            [_aSpriteArray addObject:dotNode];
             
             [self addChild:dotNode z:1];
             
@@ -61,13 +67,13 @@ static inline NSString* calcIndex(int x,int y){
 
 
 - (void)dealloc {
-    if (m_stackArray) {
-        [m_stackArray removeAllObjects];
-        m_stackArray = nil;
+    if (_stackArray) {
+        [_stackArray removeAllObjects];
+        _stackArray = nil;
     }
-    if (m_SpriteArray) {
-        [m_SpriteArray removeAllObjects];
-        m_SpriteArray = nil;
+    if (_aSpriteArray) {
+        [_aSpriteArray removeAllObjects];
+        _aSpriteArray = nil;
     }
 }
 
@@ -91,9 +97,9 @@ static inline NSString* calcIndex(int x,int y){
 }
 
 -(NGSprite *)getCurrentSelectSprite:(CGPoint)pos {
-    if (m_SpriteArray) {
+    if (_aSpriteArray) {
         
-        for (NGSprite * node in m_SpriteArray) {
+        for (NGSprite * node in _aSpriteArray) {
             
             if (node && [node positionInContent:pos]) {
                 return node;
@@ -106,31 +112,31 @@ static inline NSString* calcIndex(int x,int y){
 
 -(BOOL) touchBegine:(CGPoint)local{
     
-    if (m_toolsDisappear) {
+    if (_toolsDisappear) {
         
         [self toolDisappearSelected:local];
         
         return false;
     }
     
-    m_movePos = local;
-    m_objectHasContina = NO;
-    m_removeAllSameColor = NO;
+    _movePos = local;
+    _hasObject = NO;
+    _removeAllSameColor = NO;
     
-    if (m_stackArray.count !=0) {
-        for (NGSprite * node in m_stackArray) {
+    if (_stackArray.count !=0) {
+        for (NGSprite * node in _stackArray) {
             [node unselected];
         }
-        [m_stackArray removeAllObjects];
+        [_stackArray removeAllObjects];
     }
     
     NGSprite * ds = [self getCurrentSelectSprite:local];
     
     if (ds && [ds selectedType]) {
         
-        [m_stackArray addObject:ds];
-        m_currentDrawColor = ds.m_color;
-        m_drawLine = YES;
+        [_stackArray addObject:ds];
+        _currentDrawColor = ds.m_color;
+        _drawLine = YES;
         return YES;
     }
     return NO;
@@ -138,74 +144,74 @@ static inline NSString* calcIndex(int x,int y){
 
 -(void) touchMove:(CGPoint)local {
     
-    m_movePos = local;
+    _movePos = local;
     
     NGSprite * ds = [self getCurrentSelectSprite:local];
     
-    if (ds && ccc4FEqual(m_currentDrawColor.ccColor4f, ds.m_color.ccColor4f)) {
+    if (ds && ccc4FEqual(_currentDrawColor.ccColor4f, ds.m_color.ccColor4f)) {
         
-        if (ds == [m_stackArray lastObject]) {
+        if (ds == [_stackArray lastObject]) {
             return;
         }
-        if (m_stackArray.count >=2 &&
-            ds == [m_stackArray objectAtIndex:(m_stackArray.count-2)]) {
+        if (_stackArray.count >=2 &&
+            ds == [_stackArray objectAtIndex:(_stackArray.count-2)]) {
             
-            NGSprite * tds = [m_stackArray lastObject];
+            NGSprite * tds = [_stackArray lastObject];
             [tds unselected];
-            if (m_objectHasContina) {
-                m_removeAllSameColor = NO;
-                m_objectHasContina = NO;
+            if (_hasObject) {
+                _removeAllSameColor = NO;
+                _hasObject = NO;
             }
-            [m_stackArray removeLastObject];
+            [_stackArray removeLastObject];
             [ds selectedType];
             return;
         }
         
-        if (!m_objectHasContina && [m_stackArray containsObject:ds]) {
+        if (!_hasObject && [_stackArray containsObject:ds]) {
             
-            NGSprite * tds = [m_stackArray lastObject];
+            NGSprite * tds = [_stackArray lastObject];
             
             NSInteger absValue = abs(ds.m_x - tds.m_x) + abs(ds.m_y - tds.m_y);
             [ds unselected];
             if (absValue == 1 && [ds selectedType]) {
                 
-                m_objectHasContina = YES;
-                m_removeAllSameColor = YES;
+                _hasObject = YES;
+                _removeAllSameColor = YES;
                 
-                [m_stackArray addObject:ds];
+                [_stackArray addObject:ds];
             }
         }
         
-        if (m_objectHasContina && [m_stackArray containsObject:ds]) {
+        if (_hasObject && [_stackArray containsObject:ds]) {
             return;
         }
         
-        m_objectHasContina = NO;
-        NGSprite * tds = [m_stackArray lastObject];
+        _hasObject = NO;
+        NGSprite * tds = [_stackArray lastObject];
         
         NSInteger absValue = abs(ds.m_x - tds.m_x) + abs(ds.m_y - tds.m_y);
         
         if ((absValue == 1 || absValue == 2) && [ds selectedType]) {
-            [m_stackArray addObject:ds];
+            [_stackArray addObject:ds];
         }
     }
 }
 
 -(void)touchEnd {
-    m_drawLine = NO;
+    _drawLine = NO;
     
     NSInteger disappearCount = 0;
     
-    if (m_stackArray.count>=2) {
-        if (m_removeAllSameColor) {
+    if (_stackArray.count>=2) {
+        if (_removeAllSameColor) {
             
             [self disappearAllSameColorDotsWithSelected];
             
         }else{
-            for (int i=0; i<m_stackArray.count; i++) {
-                NGSprite * node = [m_stackArray objectAtIndex:i];
+            for (int i=0; i<_stackArray.count; i++) {
+                NGSprite * node = [_stackArray objectAtIndex:i];
                 if (node) {
-                    if (i == m_stackArray.count-1) {
+                    if (i == _stackArray.count-1) {
                         [node disappear:YES];
                     }
                     [node disappear:NO];
@@ -214,21 +220,21 @@ static inline NSString* calcIndex(int x,int y){
             }
         }
     }else{
-        for (NGSprite * node in m_stackArray) {
+        for (NGSprite * node in _stackArray) {
             [node unselected];
         }
     }
-    [m_stackArray removeAllObjects];
+    [_stackArray removeAllObjects];
     
-    m_score += disappearCount;
+    [[NGGameData sharedGameData] updateScoreByValue:disappearCount];
 }
 
 -(NSInteger) disappearAllSameColorDotsWithSelected{
     NSInteger count = 0;
     BOOL dis = YES;
-    for (int i=0; i<m_SpriteArray.count; i++) {
-        NGSprite * node = [m_SpriteArray objectAtIndex:i];
-        if (node && ccc4FEqual(m_currentDrawColor.ccColor4f, node.m_color.ccColor4f)) {
+    for (int i=0; i<_aSpriteArray.count; i++) {
+        NGSprite * node = [_aSpriteArray objectAtIndex:i];
+        if (node && ccc4FEqual(_currentDrawColor.ccColor4f, node.m_color.ccColor4f)) {
             if (dis) {
                 [node disappear:YES];
                 dis = NO;
@@ -243,27 +249,27 @@ static inline NSString* calcIndex(int x,int y){
 -(void)draw{
     [super draw];
     
-    if (m_drawLine) {
+    if (_drawLine) {
         
         glLineWidth(10);
         
-        ccColor4B c4b = ccc4BFromccc4F(m_currentDrawColor.ccColor4f);
+        ccColor4B c4b = ccc4BFromccc4F(_currentDrawColor.ccColor4f);
         ccDrawColor4B(c4b.r, c4b.g, c4b.b, c4b.a);
         
-        if ([m_stackArray count]>=2) {
-            NGSprite * ds = [m_stackArray objectAtIndex:0];
+        if ([_stackArray count]>=2) {
+            NGSprite * ds = [_stackArray objectAtIndex:0];
             CGPoint pos = [ds getDrawNodePosition];
-            for (int c=1; c<m_stackArray.count; c++) {
-                ds  = [m_stackArray objectAtIndex:c];
+            for (int c=1; c<_stackArray.count; c++) {
+                ds  = [_stackArray objectAtIndex:c];
                 CGPoint pos1 = [ds getDrawNodePosition];
                 ccDrawLine(pos, pos1);
                 pos = pos1;
             }
         }
-        NGSprite * ds = [m_stackArray lastObject];
+        NGSprite * ds = [_stackArray lastObject];
         CGPoint pos = [ds getDrawNodePosition];
-        ccDrawSolidRect(pos,m_movePos,m_currentDrawColor);
-        ccDrawLine(pos, m_movePos);
+        ccDrawSolidRect(pos,_movePos,_currentDrawColor);
+        ccDrawLine(pos, _movePos);
     }
 }
 
@@ -271,8 +277,8 @@ static inline NSString* calcIndex(int x,int y){
     
     NSMutableArray * dropArray = [NSMutableArray array];
     
-    for (int i = 0; i< m_SpriteArray.count; i++) {
-        NGSprite * ds = (NGSprite*)[m_SpriteArray objectAtIndex:i];
+    for (int i = 0; i< _aSpriteArray.count; i++) {
+        NGSprite * ds = (NGSprite*)[_aSpriteArray objectAtIndex:i];
         
         [self calcDropDown:ds ResultArray:dropArray];
     }
@@ -284,9 +290,9 @@ static inline NSString* calcIndex(int x,int y){
         [ds resetDropdown];
     }
     
-    for (int i = 0; i< m_SpriteArray.count; i++) {
+    for (int i = 0; i< _aSpriteArray.count; i++) {
         
-        NGSprite * ds = (NGSprite*)[m_SpriteArray objectAtIndex:i];
+        NGSprite * ds = (NGSprite*)[_aSpriteArray objectAtIndex:i];
         
         if (ds.m_disappear) {
             [ds respawn];
@@ -311,7 +317,7 @@ static inline NSString* calcIndex(int x,int y){
             break;
         }
         
-        NGSprite * nDS = (NGSprite *)[m_SpriteArray objectAtIndex:nIndex];
+        NGSprite * nDS = (NGSprite *)[_aSpriteArray objectAtIndex:nIndex];
         if (nDS && nDS.m_disappear) {
             NSInteger nX = nDS.m_x;
             NSInteger nY = nDS.m_y;
@@ -319,7 +325,7 @@ static inline NSString* calcIndex(int x,int y){
             [nDS resetPropertyA:x Y:y];
             [ds resetPropertyA:nX Y:nY];
             
-            [m_SpriteArray exchangeObjectAtIndex:index withObjectAtIndex:nIndex];
+            [_aSpriteArray exchangeObjectAtIndex:index withObjectAtIndex:nIndex];
             
             if (![resultArray containsObject:ds] && !ds.m_disappear) {
                 [resultArray addObject:ds];
@@ -341,21 +347,20 @@ static inline NSString* calcIndex(int x,int y){
         
         [self cancelAllDrawNodeBeSelected];
         
-        if (m_toolsDisappearType) {
+        if (_toolsDisappearType) {
             
-            m_currentDrawColor = ds.m_color;
+            _currentDrawColor = ds.m_color;
             count = [self disappearAllSameColorDotsWithSelected];
         }else{
             [ds disappear:YES];
             count = 1;
         }
-        m_toolsDisappear = NO;
+        _toolsDisappear = NO;
         
         
         
         if (self.parent) {
-            m_score += count;
-            NSLog(@"m_score = %d",m_score);
+            [[NGGameData sharedGameData] updateScoreByValue:count];
         }
     }
     
@@ -364,16 +369,16 @@ static inline NSString* calcIndex(int x,int y){
 
 -(BOOL)allDrawNodeBeSelected:(BOOL)disappearType{
     
-    if (m_toolsDisappear) {
+    if (_toolsDisappear) {
         return NO;
     }
     
-    m_toolsDisappearType = disappearType;
-    m_toolsDisappear = YES;
+    _toolsDisappearType = disappearType;
+    _toolsDisappear = YES;
     
-    for (int i=0; i< m_SpriteArray.count; i++) {
+    for (int i=0; i< _aSpriteArray.count; i++) {
         
-        NGSprite *ds = (NGSprite *)[m_SpriteArray objectAtIndex:i];
+        NGSprite *ds = (NGSprite *)[_aSpriteArray objectAtIndex:i];
         if (ds) {
             [ds KeepSelected];
         }
@@ -385,9 +390,9 @@ static inline NSString* calcIndex(int x,int y){
 
 -(void) cancelAllDrawNodeBeSelected{
     
-    for (int i=0; i< m_SpriteArray.count; i++) {
+    for (int i=0; i< _aSpriteArray.count; i++) {
         
-        NGSprite *ds = (NGSprite *)[m_SpriteArray objectAtIndex:i];
+        NGSprite *ds = (NGSprite *)[_aSpriteArray objectAtIndex:i];
         if (ds) {
             [ds unKeepSelected];
         }
@@ -399,9 +404,9 @@ static inline NSString* calcIndex(int x,int y){
 
 -(void)startAnimtionDisplay{
     self.visible = true;
-    if (m_SpriteArray) {
+    if (_aSpriteArray) {
         
-        for (NGSprite * node in m_SpriteArray) {
+        for (NGSprite * node in _aSpriteArray) {
             
             if (node) {
                 [node spawnDropdown];
@@ -414,16 +419,33 @@ static inline NSString* calcIndex(int x,int y){
 
 -(void)startPlaying{
     
-    m_toolsDisappear = false;
+    _toolsDisappear = false;
     self.userInteractionEnabled = YES;
 }
 
--(void)moveOut{
-    [self setVisible:false];
+- (void) update:(CCTime)delta {
+    _timeElapsed += delta;
+    if (_timeElapsed >= 1) {
+        _timeElapsed = 0;
+        [self updateGameTimer];
+    }
 }
 
--(void)moveIn{
-    [self setVisible:true];
+- (void) updateGameTimer {
+    _totalTimeLeft --;
+    if (_totalTimeLeft <= 0) {
+        [self gameOver];
+    } else {
+        [self updateHUDForTimeLeftTimer];
+    }
+}
+
+- (void) updateHUDForTimeLeftTimer {
+    NSLog(@"Time Left = %d",_totalTimeLeft);
+}
+
+- (void) gameOver {
+    [[CCDirector sharedDirector] replaceScene:[NGGameOverScene scene] withTransition:[CCTransition transitionFadeWithDuration:0.5]];
 }
 
 

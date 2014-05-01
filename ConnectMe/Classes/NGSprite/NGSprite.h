@@ -29,7 +29,7 @@
 @property(nonatomic,readonly) BOOL m_disappear;
 
 
--(void) spawnAtX:(NSInteger)x Y:(NSInteger)y Width:(CGFloat)w Height:(CGFloat) h;
+-(void) spawnAtX:(NSInteger)x Y:(NSInteger)y;
 
 -(void) respawn;
 
@@ -52,5 +52,7 @@
 -(void) KeepSelected;
 
 -(void) unKeepSelected;
+
+-(void) update: (CCTime) time;
 
 @end

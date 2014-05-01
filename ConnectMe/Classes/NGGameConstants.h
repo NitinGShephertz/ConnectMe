@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString * const kClientId = @"618732988321-quuc1o5tb70h4urqqmtgtts6dhg3k9ce.apps.googleusercontent.com";
+
 #define COLOUMS 6
 #define ROWS 6
 
@@ -18,12 +20,7 @@
 #define RESET_JUMP_TIME 0.3
 #define RESET_JUMP_TIMES 3
 
-#define DOT_RADIUES 11
-#define DOT_WIDTH 24.0
-#define DOT_HEIGHT 24.0
-
-#define OFFSET_H 100
-#define OFFSET_W 100
+#define GAME_TIME 2
 
 typedef enum {
     kRed,

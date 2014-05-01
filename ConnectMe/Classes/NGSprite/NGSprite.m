@@ -16,10 +16,10 @@
 @synthesize m_color = _m_color;
 @synthesize m_disappear = _m_disappear;
 
--(CGPoint) calcPos:(NSInteger)x y:(NSInteger) y{
-    
-    CGFloat width = [self anchorPoint].x * m_w + x * m_w +OFFSET_W;
-    CGFloat height = [self anchorPoint].y * m_h + y * m_h +OFFSET_H;
+-(CGPoint) calcPos:(NSInteger)x y:(NSInteger) y {
+    [self setAnchorPoint:CGPointMake(0.5, 0.5)];
+    CGFloat width =  x * m_w + [self dotOffSetX] + [self screenOffSetX];
+    CGFloat height = y * m_h + [self dotOffSetY] + [self screenOffSetY];
     return ccp(width, height);
 }
 
@@ -48,37 +48,38 @@
     }
 }
 
--(void)spawnAtX:(NSInteger)x Y:(NSInteger)y Width:(CGFloat)w Height:(CGFloat)h{
+-(void)spawnAtX:(NSInteger)x Y:(NSInteger)y {
     
     m_hasSelected = YES;
     _m_disappear = NO;
     _m_x = x;
     _m_y = y;
     
-    m_w = w*2;
-    m_h = h*2;
+    m_w = [self dotWidth];
+    m_h = [self dotHeight];
     
     [self calcColor];
     
     CGSize size = [CCDirector sharedDirector].viewSize;
-    CGFloat wd = [self anchorPoint].x * m_w + x * m_w+OFFSET_W;
+    CGFloat wd = x * m_w+ [self dotOffSetX] +[self screenOffSetX];
     
     m_drawNode = [CCDrawNode node];
     
     [m_drawNode setPosition:ccp(wd, size.height)];
     
-    [m_drawNode setContentSize:CGSizeMake(DOT_RADIUES, DOT_RADIUES)];
+    float dotRadius = [self dotRadius];
+    [m_drawNode setContentSize:CGSizeMake(dotRadius, dotRadius)];
     
     [self addChild:m_drawNode];
     
-    [m_drawNode drawDot:ccp(0, 0) radius:DOT_RADIUES color:_m_color];
+    [m_drawNode drawDot:ccp(0, 0) radius:dotRadius color:_m_color];
     
     m_selectNode = [CCDrawNode node];
     [m_drawNode addChild:m_selectNode];
     
     ccColor4F col = ccc4f(_m_color.ccColor4f.r, _m_color.ccColor4f.g, _m_color.ccColor4f.b, 255*0.75);
     CCColor *_aColor2 = [CCColor colorWithCcColor4f:col];
-    [m_selectNode drawDot:ccp(0, 0) radius:DOT_RADIUES color:_aColor2];
+    [m_selectNode drawDot:ccp(0, 0) radius:dotRadius color:_aColor2];
     m_selectNode.visible = false;
 }
 
@@ -95,15 +96,17 @@
     [self calcColor];
     
     CGSize size = [CCDirector sharedDirector].viewSize;
-    CGFloat wd = [self anchorPoint].x * m_w + _m_x * m_w +OFFSET_W;
+    CGFloat wd = _m_x * m_w + [self dotOffSetX] +[self screenOffSetX];
     
     [m_drawNode setPosition:ccp(wd, size.height)];
     
-    [m_drawNode drawDot:self.position radius:DOT_RADIUES color:_m_color];
+    float dotRadius = [self dotRadius];
+
+    [m_drawNode drawDot:self.position radius:dotRadius color:_m_color];
     
     ccColor4F col = ccc4f(_m_color.ccColor4f.r, _m_color.ccColor4f.g, _m_color.ccColor4f.b, 255*0.75);
     CCColor *_aColor2 = [CCColor colorWithCcColor4f:col];
-    [m_selectNode drawDot:ccp(0, 0) radius:DOT_RADIUES color:_aColor2];
+    [m_selectNode drawDot:ccp(0, 0) radius:dotRadius color:_aColor2];
     
     [self respawnDropdown];
 }
@@ -139,7 +142,7 @@
     
     CCActionMoveTo * moveto = [CCActionMoveTo actionWithDuration:DROPDOWN_TIME/3 position:pos];
     
-    CCActionJumpTo * jump = [CCActionJumpTo actionWithDuration:JUMP_TIME/3*2 position:pos height:20 jumps:1];
+    CCActionJumpTo * jump = [CCActionJumpTo actionWithDuration:JUMP_TIME/3*2 position:pos height:30 jumps:1];
     CCCallBlockO * callB = [CCCallBlockO actionWithBlock:^(id object) {
         m_hasSelected = NO;
         self.visible = YES;
@@ -179,13 +182,7 @@
 }
 
 -(BOOL)positionInContent:(CGPoint)pos{
-    
-    CGFloat orgx = m_drawNode.position.x - DOT_WIDTH;
-    CGFloat orgy = m_drawNode.position.y - DOT_HEIGHT;
-    
-    CGRect rect = CGRectMake(orgx, orgy, DOT_WIDTH*2, DOT_HEIGHT*2);
-    
-    return  CGRectContainsPoint(rect, pos);
+    return CGRectContainsPoint(m_drawNode.boundingBox, pos);;
 }
 
 -(BOOL)selectedType{
@@ -270,6 +267,64 @@
 
 -(void) update: (CCTime) time {
 
+}
+
+#pragma mark - Position and Size Related
+- (float) dotHeight {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 40.0f;
+    }
+    return 24.0;
+}
+
+- (float) dotWidth {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 40.0f;
+    }
+    return 24.0;
+}
+
+- (float) dotRadius {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 16.0f;
+    }
+     return 11.0;
+}
+
+- (float) dotOffSetX {
+    float _w = [self dotWidth];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return _w;
+    }
+    return _w/2;
+}
+
+- (float) dotOffSetY {
+    float _h = [self dotHeight];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return _h;
+    }
+    return _h/2;
+}
+
+- (float) screenOffSetX {
+    CGSize _size = [UIScreen mainScreen].bounds.size;
+    float _w = [self dotWidth];
+    float _off = 0.0f;
+    
+    float _coveredArea = (_w *ROWS);
+    _off  = (_size.height - _coveredArea)/2;
+    return _off;
+}
+
+- (float) screenOffSetY {
+    CGSize _size = [UIScreen mainScreen].bounds.size;
+    float _h = [self dotHeight];
+    float _off = 0.0f;
+    
+    float _coveredArea = (_h *COLOUMS);
+    _off  = (_size.width - _coveredArea)/2;
+    return _off;
 }
 
 @end

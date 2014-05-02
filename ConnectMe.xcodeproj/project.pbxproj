@@ -256,6 +256,13 @@
 		1C29580D19126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C29580719126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png */; };
 		1C29580E19126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C29580819126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png */; };
 		1C41F5291908CB39007E8E4B /* NGSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C41F5281908CB39007E8E4B /* NGSprite.m */; };
+		1C47F89519139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F88E19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png */; };
+		1C47F89619139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F88F19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png */; };
+		1C47F89719139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F89019139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png */; };
+		1C47F89819139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F89119139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png */; };
+		1C47F89919139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F89219139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png */; };
+		1C47F89A19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F89319139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png */; };
+		1C47F89B19139DFF00C7D6AC /* Screen Shot 2014-05-02 at 2.57.46 pm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C47F89419139DFF00C7D6AC /* Screen Shot 2014-05-02 at 2.57.46 pm.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -749,6 +756,13 @@
 		1C41F5261908CB1E007E8E4B /* NGGameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NGGameConstants.h; path = Classes/NGGameConstants.h; sourceTree = "<group>"; };
 		1C41F5271908CB39007E8E4B /* NGSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGSprite.h; sourceTree = "<group>"; };
 		1C41F5281908CB39007E8E4B /* NGSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGSprite.m; sourceTree = "<group>"; };
+		1C47F88E19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png"; sourceTree = "<group>"; };
+		1C47F88F19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png"; sourceTree = "<group>"; };
+		1C47F89019139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png"; sourceTree = "<group>"; };
+		1C47F89119139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png"; sourceTree = "<group>"; };
+		1C47F89219139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png"; sourceTree = "<group>"; };
+		1C47F89319139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png"; sourceTree = "<group>"; };
+		1C47F89419139DFF00C7D6AC /* Screen Shot 2014-05-02 at 2.57.46 pm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2014-05-02 at 2.57.46 pm.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1741,6 +1755,7 @@
 		1C29580219126314002F1058 /* Screen Shots */ = {
 			isa = PBXGroup;
 			children = (
+				1C47F88D19139DFF00C7D6AC /* Screen Shots */,
 				1C29580319126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png */,
 				1C29580419126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png */,
 				1C29580519126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png */,
@@ -1759,6 +1774,20 @@
 			);
 			name = NGSprite;
 			path = Classes/NGSprite;
+			sourceTree = "<group>";
+		};
+		1C47F88D19139DFF00C7D6AC /* Screen Shots */ = {
+			isa = PBXGroup;
+			children = (
+				1C47F88E19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png */,
+				1C47F88F19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png */,
+				1C47F89019139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png */,
+				1C47F89119139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png */,
+				1C47F89219139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png */,
+				1C47F89319139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png */,
+				1C47F89419139DFF00C7D6AC /* Screen Shot 2014-05-02 at 2.57.46 pm.png */,
+			);
+			name = "Screen Shots";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1831,14 +1860,18 @@
 			files = (
 				1C1C759A1907E006001383D7 /* Default@2x.png in Resources */,
 				1C1C75AD1907E006001383D7 /* Icon-120.png in Resources */,
+				1C47F89B19139DFF00C7D6AC /* Screen Shot 2014-05-02 at 2.57.46 pm.png in Resources */,
+				1C47F89719139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.25 pm.png in Resources */,
 				1C1C77B11907E009001383D7 /* LICENSE_CCBReader.txt in Resources */,
 				1C1C78441907E00A001383D7 /* newton-ipad.plist in Resources */,
 				1C1C78401907E00A001383D7 /* newton-ipadhd.plist in Resources */,
 				1C1C75A31907E006001383D7 /* Icon@2x.png in Resources */,
+				1C47F89919139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.52 pm.png in Resources */,
 				1C1C75B51907E006001383D7 /* Icon-Small@2x.png in Resources */,
 				1C1C78481907E00A001383D7 /* newton.plist in Resources */,
 				1C22F42B1910EBD20028D2E2 /* Play_Button_pressed.png in Resources */,
 				1C1C75A71907E006001383D7 /* Icon-72@2x.png in Resources */,
+				1C47F89619139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png in Resources */,
 				1C1C75981907E006001383D7 /* Default.png in Resources */,
 				1C22F41D1910BB110028D2E2 /* GooglePlus.bundle in Resources */,
 				1C1C75A11907E006001383D7 /* Icon.png in Resources */,
@@ -1849,6 +1882,7 @@
 				1C29580119121C48002F1058 /* Orange_Button.png in Resources */,
 				1C1C75B31907E006001383D7 /* Icon-Small.png in Resources */,
 				1C22F42A1910EBD20028D2E2 /* Play_Button_disabled.png in Resources */,
+				1C47F89A19139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png in Resources */,
 				1C1C75B11907E006001383D7 /* Icon-Small-50.png in Resources */,
 				1C1C783C1907E00A001383D7 /* fire.plist in Resources */,
 				1C1C783E1907E00A001383D7 /* fire.png in Resources */,
@@ -1870,6 +1904,7 @@
 				1C2957FE19121C48002F1058 /* Login_Bg.png in Resources */,
 				1C2957FD19121C48002F1058 /* Leaderboard_BG.png in Resources */,
 				1C1C75B71907E006001383D7 /* Icon-Spotlight-iOS7.png in Resources */,
+				1C47F89819139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.37.30 pm.png in Resources */,
 				1C2957FC19121C48002F1058 /* Green_Button.png in Resources */,
 				1C1C75AB1907E006001383D7 /* Icon-76@2x.png in Resources */,
 				1C1C781F1907E00A001383D7 /* LICENSE_Chipmunk.txt in Resources */,
@@ -1877,6 +1912,7 @@
 				1C2957FF19121C48002F1058 /* Login_facebook.png in Resources */,
 				1C1C75A91907E006001383D7 /* Icon-76.png in Resources */,
 				1C1C777F1907E009001383D7 /* ChangeLog in Resources */,
+				1C47F89519139DFF00C7D6AC /* iOS Simulator Screen shot 01-May-2014 4.33.17 pm.png in Resources */,
 				1C2957ED191203A2002F1058 /* LDLeaderBoard_iPad.xib in Resources */,
 				1C29580E19126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.37.58 pm.png in Resources */,
 				1C29580A19126314002F1058 /* iOS Simulator Screen shot 01-May-2014 4.33.20 pm.png in Resources */,
